@@ -1,0 +1,116 @@
+<mvc:View controllerName="project3.controller.View1"
+    xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:viz="sap.viz.ui5.controls"
+	xmlns:commons="sap.suite.ui.commons" xmlns:micro="sap.suite.ui.microchart" xmlns:gt="sap.ui.table" xmlns:t="sap.ui.table"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data" displayBlock="true" xmlns:ovp="sap.ovp.ui">
+    <Page id="page" title="{i18n>title}" titleAlignment="Center">
+    <!-- <VBox>
+          <ComboBox items="{path : '/Products'}">
+            <core:Item key="{ProductID}" text="{ProductName}"/>
+        </ComboBox>
+    </VBox> -->
+
+  	<commons:ChartContainer id="ChartCGSR" showLegend="true" showZoom="false" visible="true" showFullScreen="true" showPersonalization="false"
+		autoAdjustHeight="true" showLegendButton="true" personalizationPress="attachPersonalizationPress" contentChange="onContentChange">
+		<commons:content>
+			<commons:ChartContainerContent icon="sap-icon://bar-chart" title="Bar Chart">
+				<commons:content>
+					<viz:Popover id="idPopOverCGSR"></viz:Popover>
+					<viz:VizFrame id="idVizCGSR" uiConfig="{applicationSet:'fiori'}" height="700px" width="100%" vizType='stacked_column'
+						vizProperties="{title:{visible:true,text:'Closed Grievances by Step and Resolution Status'},legend:{visible:true,title:{visible:false},drawingEffect:'glossy'},legendGroup:{layout: {position:'right',alignment:'center'}} ,plotArea:{window:{start:{valueAxis:null,valueAxis2:null}, end:{valueAxis:null,valueAxis2:null}},background:{visible:false},gridline:{visible:false}, dataLabel :{visible:true,showTotal:true},drawingEffect: 'glossy',dataShape: {primaryAxis: ['bar', 'bar', 'bar', 'bar', 'bar', 'bar']} },valueAxis:{title:{visible:true,text:'No. of Cases'}},categoryAxis:{title:{visible:true,text:'Resolution Status'}}}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{path:'/Products'}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Resolution Status" value="{worklistView>ProductName}"/>
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="No Step Initiated" value="{worklistView>ProductID}"/>
+									<!-- <viz.data:MeasureDefinition name="Step 1" value="{worklistView>STEP1}"/>
+									<viz.data:MeasureDefinition name="Step 2" value="{worklistView>STEP2}"/>
+									<viz.data:MeasureDefinition name="Review Step" value="{worklistView>STEP3}"/>
+									<viz.data:MeasureDefinition name="Arbitration" value="{worklistView>STEP4}"/> -->
+									<!--<viz.data:MeasureDefinition name="Total" value="{worklistView>TotalGrievance}"/>-->
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+						<viz:feeds>
+							<!--<viz.feeds:FeedItem id="idvalue3Grievance" uid="valueAxis" type="Measure" values="Total"/>-->
+							<!-- <viz.feeds:FeedItem id="idvalueRS2Grievance" uid="valueAxis" type="Measure" values="Arbitration"/>
+							<viz.feeds:FeedItem id="idvalueRS1Grievance" uid="valueAxis" type="Measure" values="Review Step"/>
+							<viz.feeds:FeedItem id="idvalueRSGrievance" uid="valueAxis" type="Measure" values="Step 2"/>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Step 1"/> -->
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="No Step Initiated"/>
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Resolution Status"/>
+						</viz:feeds>
+					</viz:VizFrame>
+					
+				</commons:content>
+			</commons:ChartContainerContent>
+			<commons:ChartContainerContent icon="sap-icon://table-view" title="Table">
+				<commons:content>
+					<gt:Table id="CGSRTable" visibleRowCount="{worklistView>/aResolStatStep/length}" selectionMode="None" rows="{worklistView>/aResolStatStep}"
+						enableSelectAll="false">
+						<gt:toolbar>
+							<Toolbar>
+								<content>
+									<ToolbarSpacer/>
+									<Button icon="sap-icon://action-settings" type="Emphasized" press="onPersoBtnCGSR"/>
+									<Button icon="sap-icon://excel-attachment" tooltip="Export" type="Accept" press="OnExportToExcel('CGSRTable','aResolStatStep')"/>
+								</content>
+							</Toolbar>
+						</gt:toolbar>
+						<gt:columns>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="Resolution Status" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<Text text="{worklistView>FNGSTTXT}"/>
+								</gt:template>
+							</gt:Column>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="{i18n>NSTP}" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<ObjectStatus inverted="false" active="true" state="Information" text="{worklistView>NOSTP}" press="_showObject($event,'FNGST0')"/>
+								</gt:template>
+							</gt:Column>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="{i18n>STP1}" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<ObjectStatus inverted="false" active="true" state="Information" text="{worklistView>STEP1}" press="_showObject($event,'FNGST4')"/>
+								</gt:template>
+							</gt:Column>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="{i18n>STP2}" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<ObjectStatus inverted="false" active="true" state="Information" text="{worklistView>STEP2}" press="_showObject($event,'FNGST5')"/>
+								</gt:template>
+							</gt:Column>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="{i18n>STP3}" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<ObjectStatus inverted="false" active="true" state="Information" text="{worklistView>STEP3}" press="_showObject($event,'FNGST6')"/>
+								</gt:template>
+							</gt:Column>
+							<gt:Column autoResizable="true" hAlign="Center">
+								<Label text="{i18n>STP4}" design="Bold" wrapping="true" textAlign="Center"/>
+								<gt:template>
+									<ObjectStatus inverted="false" active="true" state="Information" text="{worklistView>STEP4}" press="_showObject($event,'FNGST7')"/>
+								</gt:template>
+							</gt:Column>
+							<!--<gt:Column autoResizable="true">-->
+							<!--	<Label text="Total" design="Bold" wrapping="true" textAlign="Center"/>-->
+							<!--	<gt:template>-->
+							<!--		<Text text="{worklistView>TOTAL}"/>-->
+							<!--	</gt:template>-->
+							<!--</gt:Column>-->
+						</gt:columns>
+					</gt:Table>
+				</commons:content>
+			</commons:ChartContainerContent>
+		</commons:content>
+		<commons:customIcons>
+			<!-- <core:Icon id="idPdf4" src="sap-icon://pdf-attachment" tooltip="Print" press="pressToPdf($event,'idPdf4','aResolStatStep')"
+				visible="{worklistView>/bPdfButton2}"></core:Icon> -->
+		</commons:customIcons>
+	</commons:ChartContainer>
+    </Page>
+</mvc:View>
