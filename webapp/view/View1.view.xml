@@ -16,7 +16,7 @@
 			<commons:ChartContainerContent icon="sap-icon://bar-chart" title="Bar Chart">
 				<commons:content>
 					<viz:Popover id="idPopOverCGSR"></viz:Popover>
-					<viz:VizFrame id="idVizCGSR" uiConfig="{applicationSet:'fiori'}" height="700px" width="100%" vizType='stacked_bar'
+					<viz:VizFrame id="idVizCGSR" uiConfig="{applicationSet:'fiori'}" height="700px" width="100%" vizType='stacked_column'
 						vizProperties="{title:{visible:true,text:'Closed Grievances by Step and Resolution Status'},legend:{visible:true,title:{visible:false},drawingEffect:'glossy'},legendGroup:{layout: {position:'right',alignment:'center'}} ,plotArea:{window:{start:{valueAxis:null,valueAxis2:null}, end:{valueAxis:null,valueAxis2:null}},background:{visible:false},gridline:{visible:false}, dataLabel :{visible:true,showTotal:true},drawingEffect: 'glossy',dataShape: {primaryAxis: ['bar', 'bar', 'bar', 'bar', 'bar', 'bar']} },valueAxis:{title:{visible:true,text:'No. of Cases'}},categoryAxis:{title:{visible:true,text:'Resolution Status'}}}">
 						<viz:dataset>
 							<viz.data:FlattenedDataset data="{path:'/Products'}">
